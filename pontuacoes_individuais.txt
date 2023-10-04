@@ -1,0 +1,9 @@
+Pontuações dos jogadores (em ordem decrescente):
+jurineide: Pontuação = 1000
+jurineide: Pontuação = 998
+jurineide: Pontuação = 997
+jurineide: Pontuação = 997
+fernando: Pontuação = 988
+jurineide: Pontuação = 974
+fernando: Pontuação = 914
+jurineide: Pontuação = 885
