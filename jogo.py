@@ -1,9 +1,12 @@
 import random
 import sqlite3
+import json
+
+nome_jogador = ""
 
 
 def jogar():
-    nome = obter_nome_jogador()  # Obtém o nome do jogador
+    obter_nome_jogador()
     explicacao_jogo()
 
     numero_secreto = random.randrange(0, 11)
@@ -25,7 +28,7 @@ def jogar():
         print(f"Tentativa {rodada} de {tentativas}")
         chute = int(input("Digite um número entre 0 e 10: "))
 
-        if chute < 1 or chute > 100:
+        if chute < 0 or chute > 10:
             print("Você deve digitar um número entre 0 e 10!")
             continue
 
@@ -41,32 +44,31 @@ def jogar():
 
         pontos_perdidos = abs(numero_secreto - chute)
         pontos -= pontos_perdidos
-        ponto=0
 
     if acertou:
         print(f"Você acertou e fez {pontos} pontos!")
-        salvar_pontuacao(nome, pontos)  # Salva a pontuação no banco de dados
+        salvar_pontuacao(pontos)
         ganhou()
     else:
-        print(f"Você perdeu e fez {ponto} pontos!")
+        print(f"Você perdeu e fez 0 pontos!")
         perdeu(numero_secreto)
 
-    mostrar_pontuacoes()  # Mostra as pontuações dos jogadores
+    mostrar_pontuacoes_individuais()
+    mostrar_pontuacoes_json()
+
 
 def explicacao_jogo():
     print("********************************")
-    print("Bem-vindo ao jogo de adivinhação")
+    print("*Bem-vindo ao jogo de adivinhação *")
     print("********************************")
-    print("*******************")
-    print("***************")
-    print("**********")
-    print("******")
-    print("***")
     print("Neste jogo, você precisa adivinhar um número secreto.")
     print("O número está entre 0 e 10, e você terá um número limitado de tentativas.")
-    print("A quantidade de tentativas varia de acordo com o nível de dificuldade que você escolher.")
+    print(
+        "A quantidade de tentativas varia de acordo com o nível de dificuldade que você escolher."
+    )
     print("E no final você terá a quantidade de pontos que você obteve.")
-    print("Boa sorte!\n")    
+    print("Boa sorte!\n")
+
 
 def escolher_nivel():
     print("Escolha o nível de dificuldade:")
@@ -76,7 +78,9 @@ def escolher_nivel():
 
     while True:
         try:
-            nivel = int(input("Digite o número correspondente ao nível desejado (1/2/3): "))
+            nivel = int(
+                input("Digite o número correspondente ao nível desejado (1/2/3): ")
+            )
             if nivel in [1, 2, 3]:
                 return nivel
             else:
@@ -84,31 +88,40 @@ def escolher_nivel():
         except ValueError:
             print("Por favor, digite um número válido.")
 
-# Função para obter o nome do jogador
-def obter_nome_jogador():
-    nome = input("Digite o seu nome abreviado: ")
-    return nome
 
-# Função para salvar a pontuação em um banco de dados
-def salvar_pontuacao(nome, pontos):
+def obter_nome_jogador():
+    global nome_jogador
+    if not nome_jogador:
+        nome_jogador = input("Digite o seu nome abreviado: ")
+
+
+def salvar_pontuacao(pontos):
     conn = sqlite3.connect("pontuacoes.db")
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS pontuacoes (nome TEXT, pontos INT)")
-    cursor.execute("INSERT INTO pontuacoes VALUES (?, ?)", (nome, pontos))
+    cursor.execute("INSERT INTO pontuacoes VALUES (?, ?)", (nome_jogador, pontos))
     conn.commit()
     conn.close()
 
-# Função para mostrar as pontuações dos jogadores
-def mostrar_pontuacoes():
+
+def mostrar_pontuacoes_json():
     conn = sqlite3.connect("pontuacoes.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT nome, AVG(pontos) AS media FROM pontuacoes GROUP BY nome")
+    cursor.execute(
+        "SELECT nome, AVG(pontos) AS media FROM pontuacoes GROUP BY nome ORDER BY media DESC"
+    )
     resultados = cursor.fetchall()
     conn.close()
 
-    print("Pontuações dos jogadores (média por jogador):")
+    dados_json = []
+
     for nome, pontuacao_media in resultados:
-        print(f"{nome}: Pontuação Média = {pontuacao_media:.2f}")
+        jogador = {"nome": nome, "pontuacao_media": pontuacao_media}
+        dados_json.append(jogador)
+
+    with open("media_jogadores.json", "w", encoding="utf-8") as arquivo_json:
+        json.dump(dados_json, arquivo_json, indent=4)
+
 
 def mostrar_pontuacoes_individuais():
     conn = sqlite3.connect("pontuacoes.db")
@@ -117,12 +130,10 @@ def mostrar_pontuacoes_individuais():
     resultados = cursor.fetchall()
     conn.close()
 
-    with open("pontuacoes_individuais.txt", "w", encoding="utf-8") as arquivo:
-        arquivo.write("Pontuações dos jogadores (em ordem decrescente):\n")
-        for nome, pontos in resultados:
-            arquivo.write(f"{nome}: Pontuação = {pontos}\n")
+    with open("pontuacoes_individuais.json", "w", encoding="utf-8") as arquivo_json:
+        dados_json = [{"nome": nome, "pontos": pontos} for nome, pontos in resultados]
+        json.dump(dados_json, arquivo_json, indent=4)
 
-    arquivo.close()
 
 def ganhou():
     print("****** Parabéns!!! ******")
@@ -139,6 +150,7 @@ def ganhou():
     print("         _.' '._        ")
     print("        '-------'       ")
     print("*************************")
+
 
 def perdeu(numero_secreto):
     print("***** Você perdeu!! *****")
@@ -160,6 +172,6 @@ def perdeu(numero_secreto):
     print("     \_         _/         ")
     print("       \_______/           ")
 
+
 if __name__ == "__main__":
-    mostrar_pontuacoes_individuais()  # Mostra as pontuações individuais e escreve em um arquivo    
     jogar()
