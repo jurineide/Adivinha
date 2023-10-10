@@ -53,7 +53,7 @@ def jogar():
         print(f"Você perdeu e fez 0 pontos!")
         perdeu(numero_secreto)
 
-    mostrar_pontuacoes_individuais()
+    mostrar_pontuacoes_individuais_json()
     mostrar_pontuacoes_json()
 
 
@@ -116,22 +116,29 @@ def mostrar_pontuacoes_json():
     dados_json = []
 
     for nome, pontuacao_media in resultados:
-        jogador = {"nome": nome, "pontuacao_media": pontuacao_media}
+        pontuacao_media_arredondada = round(pontuacao_media, 1)
+        jogador = {"nome": nome, "pontuacao_media": pontuacao_media_arredondada}
         dados_json.append(jogador)
 
     with open("media_jogadores.json", "w", encoding="utf-8") as arquivo_json:
         json.dump(dados_json, arquivo_json, indent=4)
 
 
-def mostrar_pontuacoes_individuais():
+def mostrar_pontuacoes_individuais_json():
     conn = sqlite3.connect("pontuacoes.db")
     cursor = conn.cursor()
     cursor.execute("SELECT nome, pontos FROM pontuacoes ORDER BY pontos DESC")
     resultados = cursor.fetchall()
     conn.close()
 
+    dados_json = {}
+
+    for nome, pontos in resultados:
+        if nome not in dados_json:
+            dados_json[nome] = []
+        dados_json[nome].append(pontos)
+
     with open("pontuacoes_individuais.json", "w", encoding="utf-8") as arquivo_json:
-        dados_json = [{"nome": nome, "pontos": pontos} for nome, pontos in resultados]
         json.dump(dados_json, arquivo_json, indent=4)
 
 
@@ -174,4 +181,4 @@ def perdeu(numero_secreto):
 
 
 if __name__ == "__main__":
-    jogar()
+  jogar()

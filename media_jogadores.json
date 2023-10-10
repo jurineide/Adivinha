@@ -1,18 +1,26 @@
 [
     {
+        "nome": "jueineide",
+        "pontuacao_media": 1000.0
+    },
+    {
         "nome": "giovanna",
-        "pontuacao_media": 993.0
+        "pontuacao_media": 995.7
+    },
+    {
+        "nome": "python -u \"c:\\Users\\jsjus\\Desktop\\jogoPy\\jogo.py\"",
+        "pontuacao_media": 986.0
+    },
+    {
+        "nome": "jurineide",
+        "pontuacao_media": 985.8
     },
     {
         "nome": "jg",
         "pontuacao_media": 983.0
     },
     {
-        "nome": "jurineide",
-        "pontuacao_media": 982.3076923076923
-    },
-    {
         "nome": "fernando",
-        "pontuacao_media": 964.3333333333334
+        "pontuacao_media": 964.3
     }
 ]

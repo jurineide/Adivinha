@@ -1,78 +1,43 @@
-[
-    {
-        "nome": "jurineide",
-        "pontos": 1000
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 999
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 998
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 997
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 997
-    },
-    {
-        "nome": "giovanna",
-        "pontos": 997
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 994
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 994
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 993
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 992
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 992
-    },
-    {
-        "nome": "fernando",
-        "pontos": 991
-    },
-    {
-        "nome": "giovanna",
-        "pontos": 989
-    },
-    {
-        "nome": "fernando",
-        "pontos": 988
-    },
-    {
-        "nome": "jg",
-        "pontos": 983
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 974
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 955
-    },
-    {
-        "nome": "fernando",
-        "pontos": 914
-    },
-    {
-        "nome": "jurineide",
-        "pontos": 885
-    }
-]
+{
+    "jurineide": [
+        1000,
+        1000,
+        1000,
+        999,
+        998,
+        998,
+        997,
+        997,
+        994,
+        994,
+        993,
+        992,
+        992,
+        991,
+        974,
+        955,
+        885
+    ],
+    "giovanna": [
+        1000,
+        997,
+        997,
+        996,
+        995,
+        989
+    ],
+    "jueineide": [
+        1000
+    ],
+    "fernando": [
+        991,
+        988,
+        914
+    ],
+    "python -u \"c:\\Users\\jsjus\\Desktop\\jogoPy\\jogo.py\"": [
+        986
+    ],
+    "jg": [
+        983
+    ]
+}
