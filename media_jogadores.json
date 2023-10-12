@@ -4,8 +4,16 @@
         "pontuacao_media": 1000.0
     },
     {
+        "nome": "marlon",
+        "pontuacao_media": 996.0
+    },
+    {
         "nome": "giovanna",
         "pontuacao_media": 995.7
+    },
+    {
+        "nome": "jo\u00e3o",
+        "pontuacao_media": 993.0
     },
     {
         "nome": "python -u \"c:\\Users\\jsjus\\Desktop\\jogoPy\\jogo.py\"",
@@ -21,6 +29,6 @@
     },
     {
         "nome": "fernando",
-        "pontuacao_media": 964.3
+        "pontuacao_media": 977.4
     }
 ]

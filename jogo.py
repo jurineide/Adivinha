@@ -55,6 +55,7 @@ def jogar():
 
     mostrar_pontuacoes_individuais_json()
     mostrar_pontuacoes_json()
+    mostrar_media_geral_json()
 
 
 def explicacao_jogo():
@@ -72,9 +73,9 @@ def explicacao_jogo():
 
 def escolher_nivel():
     print("Escolha o nível de dificuldade:")
-    print("1 - Fácil (20 tentativas)")
-    print("2 - Médio (10 tentativas)")
-    print("3 - Difícil (5 tentativas)")
+    print("1 - Fácil (10 tentativas)")
+    print("2 - Médio (5 tentativas)")
+    print("3 - Difícil (3 tentativas)")
 
     while True:
         try:
@@ -92,7 +93,7 @@ def escolher_nivel():
 def obter_nome_jogador():
     global nome_jogador
     if not nome_jogador:
-        nome_jogador = input("Digite o seu nome abreviado: ")
+        nome_jogador = input("Digite o seu nome:  ")
 
 
 def salvar_pontuacao(pontos):
@@ -141,6 +142,17 @@ def mostrar_pontuacoes_individuais_json():
     with open("pontuacoes_individuais.json", "w", encoding="utf-8") as arquivo_json:
         json.dump(dados_json, arquivo_json, indent=4)
 
+def mostrar_media_geral_json():
+    conn = sqlite3.connect("pontuacoes.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT AVG(pontos) AS media_geral FROM pontuacoes")
+    resultado = cursor.fetchone()
+    conn.close()
+
+    media_geral = round(resultado[0], 1)  # Arredondar para uma casa decimal
+
+    with open("media_geral.json", "w", encoding="utf-8") as arquivo_json:
+        json.dump({"media_geral": media_geral}, arquivo_json, indent=4)
 
 def ganhou():
     print("****** Parabéns!!! ******")
